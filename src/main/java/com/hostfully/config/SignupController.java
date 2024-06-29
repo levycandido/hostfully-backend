@@ -2,6 +2,7 @@ package com.hostfully.config;
 
 import com.hostfully.entity.Guest;
 import com.hostfully.entity.Person;
+import com.hostfully.config.AuthService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

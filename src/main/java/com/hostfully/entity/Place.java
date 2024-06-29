@@ -30,6 +30,8 @@ public class Place {
     private Double Longitude;
 
     public Place(long l, String testProperty, String testLocation) {
+         this.id = l;
+         this.name = testProperty;
+         this.street = testLocation;
     }
-
 }

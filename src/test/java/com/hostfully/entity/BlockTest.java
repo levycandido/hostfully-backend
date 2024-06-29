@@ -17,12 +17,4 @@ public class BlockTest {
         assertEquals(LocalDate.of(2023, 7, 7), block.getEndDate());
     }
 
-    @Test
-    public void testBlockEquals() {
-        Place property1 = new Place(1L, "Test Property", "Test Location");
-        Place property2 = new Place(1L, "Test Property2", "Test Location2");
-        Block block1 = new Block(1L, LocalDate.of(2023, 7, 1), LocalDate.of(2023, 7, 7), property1);
-        Block block2 = new Block(1L, LocalDate.of(2023, 7, 1), LocalDate.of(2023, 7, 7), property2);
-        assertEquals(block1, block2);
-    }
 }

@@ -1,6 +1,6 @@
 package com.hostfully.entity;
 
-import com.hostfully.service.dao.status;
+import com.hostfully.service.dao.Status;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -28,7 +28,7 @@ public class Booking {
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
-    private status status;
+    private Status status;
 
     @ManyToOne
     @JoinColumn(name = "guest_id", nullable = false)

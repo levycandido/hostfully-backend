@@ -2,15 +2,14 @@ package com.hostfully.service.dao;
 
 import com.fasterxml.jackson.annotation.JsonValue;
 
-public enum status {
-    ACTIVE("Active"),
+public enum Status {
     CANCELED("Canceled"),
     BOOKED("Booked"),
     PENDING("Pending");
 
     private final String status;
 
-    status(String status) {
+    Status(String status) {
         this.status = status;
     }
 

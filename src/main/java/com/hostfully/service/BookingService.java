@@ -4,7 +4,7 @@ import com.hostfully.entity.Block;
 import com.hostfully.entity.Booking;
 import com.hostfully.repository.BlockRepository;
 import com.hostfully.repository.BookingRepository;
-import com.hostfully.service.dao.status;
+import com.hostfully.service.dao.Status;
 import com.hostfully.service.exception.BlockCreationException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -61,7 +61,7 @@ public class BookingService {
                         booking.getEndDate());
         optionalBlock.ifPresent(blockRepository::delete);
 
-        booking.setStatus(status.CANCELED);
+        booking.setStatus(Status.CANCELED);
         bookingRepository.save(booking);
     }
 
@@ -71,7 +71,7 @@ public class BookingService {
         if (bookingOtp.isPresent()) {
             Booking booking = bookingOtp.get();
             validateBookingDates(booking);
-            booking.setStatus(status.PENDING);
+            booking.setStatus(Status.PENDING);
             createBlock(booking);
             return bookingRepository.save(booking);
         } else {

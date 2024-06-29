@@ -15,5 +15,5 @@ public class Booking {
     private String guestName;
     private LocalDate startDate;
     private LocalDate endDate;
-    private com.hostfully.service.dao.status status;
+    private Status status;
 }

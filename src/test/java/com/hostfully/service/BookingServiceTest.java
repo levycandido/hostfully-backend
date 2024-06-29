@@ -3,7 +3,7 @@ package com.hostfully.service;
 import com.hostfully.entity.*;
 import com.hostfully.repository.BlockRepository;
 import com.hostfully.repository.BookingRepository;
-import com.hostfully.service.dao.status;
+import com.hostfully.service.dao.Status;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
@@ -43,10 +43,8 @@ public class BookingServiceTest {
         Customer customer = new Customer(1L, "123", "levycandido@hotmail.com");
         Guest guest = new Guest(1L, "John Doe", customer);
 
-
-        Person guest = new Guest(1L, "John Doe", customer);
         Place property = new Place(1L, "Test Property", "Test Location");
-        Booking booking = new Booking(1L, LocalDate.of(2023, 7, 1), LocalDate.of(2023, 7, 7), status.PENDING, guest, property);
+        Booking booking = new Booking(1L, LocalDate.of(2023, 7, 1), LocalDate.of(2023, 7, 7), Status.PENDING, guest, property);
 
         when(bookingRepository.save(any(Booking.class))).thenReturn(booking);
         when(bookingRepository.findOverlappingBookings(any(LocalDate.class), any(LocalDate.class), anyLong()))
@@ -64,11 +62,8 @@ public class BookingServiceTest {
         Customer customer = new Customer(1L, "123", "levycandido@hotmail.com");
         Guest guest = new Guest(1L, "John Doe", customer);
 
-//        Customer customer = new Customer(1L, "123", "levycandido@hotmail.com");
-        Guest guest = new Guest(1L, "John Doe", customer);
-        Person guest = new Guest(1L, "John Doe", customer);
         Place property = new Place(1L, "Test Property", "Test Location");
-        Booking booking = new Booking(1L, LocalDate.of(2023, 7, 1), LocalDate.of(2023, 7, 7), status.PENDING, guest, property);
+        Booking booking = new Booking(1L, LocalDate.of(2023, 7, 1), LocalDate.of(2023, 7, 7), Status.PENDING, guest, property);
 
         when(bookingRepository.findOverlappingBookings(any(LocalDate.class), any(LocalDate.class), anyLong()))
                 .thenReturn(Collections.singletonList(new Booking()));
@@ -83,9 +78,10 @@ public class BookingServiceTest {
     @Test
     public void testCreateBookingWithOverlappingBlocks() {
 
-        Person guest = new Guest(1L, "John Doe");
+        Customer customer = new Customer(1L, "123", "levycandido@hotmail.com");
+        Guest guest = new Guest(1L, "John Doe", customer);
         Place property = new Place(1L, "Test Property", "Test Location");
-        Booking booking = new Booking(1L, LocalDate.of(2023, 7, 1), LocalDate.of(2023, 7, 7), status.PENDING, guest, property);
+        Booking booking = new Booking(1L, LocalDate.of(2023, 7, 1), LocalDate.of(2023, 7, 7), Status.PENDING, guest, property);
 
         when(bookingRepository.findOverlappingBookings(any(LocalDate.class), any(LocalDate.class), anyLong()))
                 .thenReturn(Collections.emptyList());
@@ -101,13 +97,15 @@ public class BookingServiceTest {
 
     @Test
     public void testGetAllBookings() {
-        Person guest1 = new Guest(1L, "John Doe");
+        Customer customer = new Customer(1L, "123", "levycandido@hotmail.com");
+        Guest guest1 = new Guest(1L, "John Doe", customer);
         Place property1 = new Place(1L, "Test Property", "Test Location");
-        Booking booking1 = new Booking(1L, LocalDate.of(2023, 7, 1), LocalDate.of(2023, 7, 7), status.PENDING, guest1, property1);
+        Booking booking1 = new Booking(1L, LocalDate.of(2023, 7, 1), LocalDate.of(2023, 7, 7), Status.PENDING, guest1, property1);
 
-        Person guest2 = new Guest(1L, "John Doe");
+        Customer customer2 = new Customer(2L, "123", "levycandido@hotmail.com2");
+        Person guest2 = new Guest(1L, "John Doe", customer2);
         Place property2 = new Place(1L, "Test Property", "Test Location");
-        Booking booking2 = new Booking(1L, LocalDate.of(2023, 7, 10), LocalDate.of(2023, 7, 15), status.PENDING, guest2, property2);
+        Booking booking2 = new Booking(1L, LocalDate.of(2023, 7, 10), LocalDate.of(2023, 7, 15), Status.PENDING, guest2, property2);
 
         List<Booking> bookings = Arrays.asList(booking1, booking2);
 
@@ -117,6 +115,5 @@ public class BookingServiceTest {
 
         assertEquals(2, result.size());
         assertEquals("John Doe", result.get(0).getGuest().getName());
-        assertEquals("Jane Doe", result.get(0).getGuest().getName());
     }
 }

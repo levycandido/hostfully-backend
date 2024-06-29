@@ -9,11 +9,11 @@ public class PropertyTest {
 
     @Test
     public void testPropertyCreation() {
-        Place property = new Place(1L, "Test Property", "Test Location");
+        Place place = new Place(1L, "Test Property", "Test Location");
 
-        assertNotNull(property);
-        assertEquals(1L, property.getId());
-        assertEquals("Test Property", property.getName());
-        assertEquals("Test Location", property.getStreet());
+        assertNotNull(place);
+        assertEquals(1L, place.getId());
+        assertEquals("Test Property", place.getName());
+        assertEquals("Test Location", place.getStreet());
     }
 }
