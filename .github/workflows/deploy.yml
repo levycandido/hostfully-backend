@@ -11,7 +11,14 @@ jobs:
 
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v3  # Atualize para v3
+        uses: actions/checkout@v3  # Certifique-se de estar usando a versão correta
+
+      - name: Build project
+        run: |
+          ./gradlew build  # Certifique-se de que este comando gera o arquivo JAR no local correto
+
+      - name: List files for debug
+        run: ls -al build/libs/
 
       - name: Upload JAR to EC2
         uses: appleboy/scp-action@master
@@ -19,8 +26,8 @@ jobs:
           host: ${{ secrets.EC2_HOST }}
           username: ${{ secrets.EC2_USER }}
           key: ${{ secrets.EC2_KEY }}
-          source: 'hostfullyChallenge-0.0.1-SNAPSHOT.jar'
-          target: '~/app/'
+          source: 'build/libs/hostfullyChallenge-0.0.1-SNAPSHOT.jar'  # Certifique-se de que este caminho está correto
+          target: '~/hostfullyChallenge/'
 
       - name: Execute JAR on EC2
         uses: appleboy/ssh-action@master
@@ -30,4 +37,4 @@ jobs:
           key: ${{ secrets.EC2_KEY }}
           script: |
             pkill -f 'java -jar' || true
-            nohup java -jar ~/hostfullyChallenge/hostfullyChallenge-0.0.1-SNAPSHOT.jar > app.log 2>&1 &
+            nohup java -jar ~/hostfullyChallenge/hostfullyChallenge-0.0.1-SNAPSHOT.jar > ~/hostfullyChallenge/app.log 2>&1 &
