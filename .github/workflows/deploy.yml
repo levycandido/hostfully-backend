@@ -3,7 +3,7 @@ name: Deploy to EC2
 on:
   push:
     branches:
-      - main  # Nome da branch que acionará o deployment
+      - main  # The branch that will trigger the deployment
 
 jobs:
   deploy:
@@ -11,11 +11,11 @@ jobs:
 
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v3  # Certifique-se de estar usando a versão correta
+        uses: actions/checkout@v3  # Ensure you are using the correct version
 
       - name: Build project
         run: |
-          ./gradlew build  # Certifique-se de que este comando gera o arquivo JAR no local correto
+          ./gradlew build  # Ensure this command generates the JAR file in the correct location
 
       - name: List files for debug
         run: ls -al build/libs/
@@ -26,7 +26,7 @@ jobs:
           host: ${{ secrets.EC2_HOST }}
           username: ${{ secrets.EC2_USER }}
           key: ${{ secrets.EC2_KEY }}
-          source: 'build/libs/hostfullyChallenge-0.0.1-SNAPSHOT.jar'  # Certifique-se de que este caminho está correto
+          source: 'build/libs/hostfullyChallenge-0.0.1-SNAPSHOT.jar'  # Ensure this path is correct
           target: '~/hostfullyChallenge/'
 
       - name: Execute JAR on EC2
