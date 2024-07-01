@@ -8,7 +8,7 @@ INSERT INTO place (id, name, street, latitude, longitude) VALUES
  (6, 'Evvai', 'Rua Joaquim Antunes, 108', -23.561511, -46.676437),
  (7, 'Osteria Francescana', 'Rua Oscar Freire, 45', -23.563092, -46.671801),
  (8, 'Jun Sakamoto', 'Rua Lisboa, 55', -23.557332, -46.674231),
- (9, 'Kinoshita', 'Rua Jacques Félix, 405', -23.583538, -46.674902),
+ (9, 'Kinoshita', 'Rua Jacques Félix, 415', -23.583538, -46.674902),
  (10, 'Sassá Sushi', 'Rua Horácio Lafer, 634', -23.578744, -46.676947);
 
 ALTER TABLE PLACE ALTER COLUMN ID RESTART WITH 11;
