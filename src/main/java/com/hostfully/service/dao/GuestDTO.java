@@ -10,10 +10,9 @@ import lombok.NoArgsConstructor;
 @EqualsAndHashCode(callSuper = true)
 @Data
 @NoArgsConstructor
-@Entity
-public class Guest extends Person {
+public class GuestDTO extends Person {
 
-   public Guest(Long id, String name, Customer customer ) {
+   public GuestDTO(Long id, String name, Customer customer ) {
        super(id, name, customer, "guest");
     }
 
