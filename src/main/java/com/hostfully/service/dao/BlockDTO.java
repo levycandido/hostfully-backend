@@ -9,7 +9,7 @@ import java.time.LocalDate;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class Block {
+public class BlockDTO {
     private Long id;
     private LocalDate startDate;
     private LocalDate endDate;

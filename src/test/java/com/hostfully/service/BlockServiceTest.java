@@ -1,8 +1,10 @@
 package com.hostfully.service;
 
+import com.hostfully.ObjectMapperUtils;
 import com.hostfully.entity.Block;
 import com.hostfully.entity.Place;
 import com.hostfully.repository.BlockRepository;
+import com.hostfully.service.dao.BlockDTO;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
@@ -36,11 +38,11 @@ public class BlockServiceTest {
         Block block = new Block(1L, LocalDate.of(2023, 7, 1), LocalDate.of(2023, 7, 7), property);
         when(blockRepository.save(any(Block.class))).thenReturn(block);
 
-        Block createdBlock = blockService.createBlock(block);
+        BlockDTO createdBlockDTO = blockService.createBlock(ObjectMapperUtils.map(block, BlockDTO.class));
 
-        assertNotNull(createdBlock);
-        assertEquals(block.getStartDate(), createdBlock.getStartDate());
-        assertEquals(block.getEndDate(), createdBlock.getEndDate());
+        assertNotNull(createdBlockDTO);
+        assertEquals(block.getStartDate(), createdBlockDTO.getStartDate());
+        assertEquals(block.getEndDate(), createdBlockDTO.getEndDate());
     }
 
     @Test
@@ -53,7 +55,7 @@ public class BlockServiceTest {
         when(blockRepository.findById(anyLong())).thenReturn(Optional.of(existingBlock));
         when(blockRepository.save(any(Block.class))).thenReturn(newBlock);
 
-        blockService.updateBlock(1L, newBlock);
+        blockService.updateBlock(1L, ObjectMapperUtils.map(newBlock, BlockDTO.class));
 
         verify(blockRepository).findById(1L);
         verify(blockRepository).save(existingBlock);
@@ -79,7 +81,7 @@ public class BlockServiceTest {
         Block block = new Block(1L, LocalDate.now(), LocalDate.now().plusDays(1), property);
         when(blockRepository.findById(anyLong())).thenReturn(Optional.of(block));
 
-        Block returnedblock = blockService.getBlock(1L);
+        Block returnedblock = ObjectMapperUtils.map(blockService.getBlock(1L), Block.class);
 
         assertNotNull(returnedblock);
         assertEquals(1L, returnedblock.getId());
@@ -98,9 +100,9 @@ public class BlockServiceTest {
         );
         when(blockRepository.findAll()).thenReturn(blocks);
 
-        List<Block> foundBlocks = blockService.getAllBlocks();
-        assertNotNull(foundBlocks);
-        assertEquals(2, foundBlocks.size());
+        List<BlockDTO> blockDTOS = ObjectMapperUtils.mapAll(blockService.getAllBlocks(), BlockDTO.class);
+        assertNotNull(blockDTOS);
+        assertEquals(2, blockDTOS.size());
     }
 
     @Test
