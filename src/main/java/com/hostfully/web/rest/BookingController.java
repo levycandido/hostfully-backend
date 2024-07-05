@@ -2,6 +2,8 @@ package com.hostfully.web.rest;
 
 import com.hostfully.entity.Booking;
 import com.hostfully.service.BookingService;
+import com.hostfully.service.dao.BookingDTO;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -16,15 +18,15 @@ public class BookingController {
     private BookingService bookingService;
 
     @PostMapping
-    public ResponseEntity<Booking> createBooking(@RequestBody Booking booking) {
-        Booking createdBooking = bookingService.createBooking(booking);
+    public ResponseEntity<BookingDTO> createBooking(@RequestBody BookingDTO bookingDTO) {
+        BookingDTO createdBooking = bookingService.createBooking(bookingDTO);
         return ResponseEntity.ok(createdBooking);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Booking> updateBooking(@PathVariable Long id, @RequestBody Booking booking) {
-        Booking updatedBooking = bookingService.updateBooking(id, booking);
-        return ResponseEntity.ok(updatedBooking);
+    public ResponseEntity<BookingDTO> updateBooking(@PathVariable Long id, @RequestBody BookingDTO bookingDTO) {
+        BookingDTO updatedBookingDTO = bookingService.updateBooking(id, bookingDTO);
+        return ResponseEntity.ok(updatedBookingDTO);
     }
 
     @PutMapping("/{id}/cancel")
@@ -34,29 +36,28 @@ public class BookingController {
     }
 
     @PutMapping("/{id}/rebook")
-    public ResponseEntity<Booking> rebook(@PathVariable Long id) {
-        Booking rebooked = bookingService.rebook(id);
-        return ResponseEntity.ok(rebooked);
+    public ResponseEntity<BookingDTO> rebook(@PathVariable Long id) {
+        BookingDTO bookingDTO = bookingService.rebook(id);
+        return ResponseEntity.ok(bookingDTO);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Booking> getBooking(@PathVariable Long id) {
-        Booking booking = bookingService.getBooking(id);
-        return ResponseEntity.ok(booking);
+    public ResponseEntity<BookingDTO> getBooking(@PathVariable Long id) {
+        BookingDTO bookingDTO = bookingService.getBooking(id);
+        return ResponseEntity.ok(bookingDTO);
     }
 
     @GetMapping
-    public ResponseEntity<List<Booking>> getAllBooking() {
-       List<Booking> booking = bookingService.getAllBookings();
-        return ResponseEntity.ok(booking);
+    public ResponseEntity<List<BookingDTO>> getAllBooking() {
+        return ResponseEntity.ok(bookingService.getAllBookings());
     }
 
     @GetMapping("/person/{personId}")
-    public ResponseEntity<List<Booking>> getBookingsByPerson(@PathVariable Long personId) {
-        List<Booking> bookings = bookingService.findBookingsByPersonId(personId);
-        if (bookings.isEmpty()) {
+    public ResponseEntity<List<BookingDTO>> getBookingsByPerson(@PathVariable Long personId) {
+        List<BookingDTO> bookingsDtos = bookingService.findBookingsByPersonId(personId);
+        if (bookingsDtos.isEmpty()) {
             return ResponseEntity.noContent().build();
         }
-        return ResponseEntity.ok(bookings);
+        return ResponseEntity.ok(bookingsDtos);
     }
 }

@@ -1,8 +1,10 @@
 package com.hostfully.service;
 
+import com.hostfully.ObjectMapperUtils;
 import com.hostfully.entity.*;
 import com.hostfully.repository.BlockRepository;
 import com.hostfully.repository.BookingRepository;
+import com.hostfully.service.dao.BookingDTO;
 import com.hostfully.service.dao.Status;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -46,15 +48,16 @@ public class BookingServiceTest {
         Place property = new Place(1L, "Test Property", "Test Location");
         Booking booking = new Booking(1L, LocalDate.of(2023, 7, 1), LocalDate.of(2023, 7, 7), Status.PENDING, guest, property);
 
-        when(bookingRepository.save(any(Booking.class))).thenReturn(booking);
+        when(bookingRepository
+                .save(any(Booking.class))).thenReturn(ObjectMapperUtils.map(booking, Booking.class));
         when(bookingRepository.findOverlappingBookings(any(LocalDate.class), any(LocalDate.class), anyLong()))
                 .thenReturn(Collections.emptyList());
         when(blockRepository.findOverlappingBlocks(any(LocalDate.class), any(LocalDate.class)))
                 .thenReturn(Collections.emptyList());
 
-        Booking createdBooking = bookingService.createBooking(booking);
+        BookingDTO createdBookingDTO = bookingService.createBooking(ObjectMapperUtils.map(booking, BookingDTO.class));
 
-        assertEquals(booking, createdBooking);
+        assertEquals(ObjectMapperUtils.map(booking, BookingDTO.class), createdBookingDTO);
     }
 
     @Test
@@ -69,7 +72,7 @@ public class BookingServiceTest {
                 .thenReturn(Collections.singletonList(new Booking()));
 
         Exception exception = assertThrows(RuntimeException.class, () -> {
-            bookingService.createBooking(booking);
+            bookingService.createBooking(ObjectMapperUtils.map(booking, BookingDTO.class));
         });
 
         assertEquals("Booking dates overlap with existing bookings", exception.getMessage());
@@ -89,7 +92,7 @@ public class BookingServiceTest {
                 .thenReturn(Collections.singletonList(new Block()));
 
         Exception exception = assertThrows(RuntimeException.class, () -> {
-            bookingService.createBooking(booking);
+            bookingService.createBooking(ObjectMapperUtils.map(booking, BookingDTO.class));
         });
 
         assertEquals("Booking dates overlap with existing blocks", exception.getMessage());
@@ -111,7 +114,7 @@ public class BookingServiceTest {
 
         when(bookingRepository.findAll()).thenReturn(bookings);
 
-        List<Booking> result = bookingService.getAllBookings();
+        List<BookingDTO> result = bookingService.getAllBookings();
 
         assertEquals(2, result.size());
         assertEquals("John Doe", result.get(0).getGuest().getName());
