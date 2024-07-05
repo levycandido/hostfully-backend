@@ -1,7 +1,7 @@
 package com.hostfully.web.rest;
 
-import com.hostfully.entity.Block;
 import com.hostfully.service.BlockService;
+import com.hostfully.service.dao.BlockDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -17,26 +17,26 @@ public class BlockController {
     private BlockService blockService;
 
     @PostMapping
-    public ResponseEntity<Block> createBlock(@RequestBody Block block) {
+    public ResponseEntity<BlockDTO> createBlockDTO(@RequestBody BlockDTO block) {
         if (block.getStartDate() == null) {
             throw new IllegalArgumentException("Start date is required");
         }
 
-        Block result = blockService.createBlock(block);
+        BlockDTO result = blockService.createBlock(block);
         return ResponseEntity.ok(result);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Block> updateBlock(@PathVariable Long id, @RequestBody Block block) {
+    public ResponseEntity<BlockDTO> updateBlockDTO(@PathVariable Long id, @RequestBody BlockDTO block) {
         if (block.getStartDate() == null) {
             throw new IllegalArgumentException("Start date is required");
         }
-        Block result = blockService.updateBlock(id, block);
+        BlockDTO result = blockService.updateBlock(id, block);
         return ResponseEntity.ok(result);
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteBlock(@PathVariable Long id) {
+    public ResponseEntity<Void> deleteBlockDTO(@PathVariable Long id) {
         try {
             blockService.deleteBlock(id);
             return ResponseEntity.noContent().build();
@@ -47,8 +47,8 @@ public class BlockController {
 
 
     @GetMapping
-    public ResponseEntity<List<Block>> getAllBlocks() {
-        List<Block> blocks = blockService.getAllBlocks();
+    public ResponseEntity<List<BlockDTO>> getAllBlockDTOs() {
+        List<BlockDTO> blocks = blockService.getAllBlocks();
         return ResponseEntity.ok(blocks);
     }
 
