@@ -1,0 +1,6 @@
+com\hostfully\entity\BlockTest.class
+com\hostfully\entity\GuestTest.class
+com\hostfully\service\BlockServiceTest.class
+com\hostfully\entity\EmployeeTest.class
+com\hostfully\service\BookingServiceTest.class
+com\hostfully\entity\PropertyTest.class
